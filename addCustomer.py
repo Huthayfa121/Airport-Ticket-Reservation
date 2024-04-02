@@ -92,7 +92,17 @@ def add():
             cur.execute(query, val)
             db.commit()
             messagebox.showinfo('Success', 'Record inserted successfully')
-            Exitt()
+            csIdEntry.configure(text=autoId())
+            FirstNEntry.delete(0, 'end')
+            LastNEntry.delete(0, 'end')
+            NICEntry.delete(0, 'end')
+            PassportEntry.delete(0, 'end')
+            AddressEntry.delete(0, 'end')
+            dobEntry.delete(0, 'end')
+            ContactEntry.delete(0, 'end')
+            Gend1Entry.deselect()
+            Gend2Entry.deselect()
+
         except mysql.connector.Error as e:
             messagebox.showerror('Error', f'Error: {e}')
 
@@ -104,26 +114,26 @@ def add():
 
 root = Tk()
 root.title("Add Customer")
-root.geometry("1350x760")
-# root.resizable(False, False)
+root.geometry('1540x780+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
+
+root.resizable(False, False)
+
 root.configure(bg="sky blue")
-backgroundImage = ImageTk.PhotoImage(file='img/plan1.jpeg')  # ImageTk.PhotoImage allows as to use image from type jpg
+backgroundImage = ImageTk.PhotoImage(file='img/plane2.tif')  # ImageTk.PhotoImage allows as to use image from type jpg
 
 bgLabel = Label(root, image=backgroundImage)
 
 bgLabel.place(x=0, y=0)
 
 # *************************************Frame*******************************************
-head_frame = Frame(root)
-head_frame.place(x=90, y=150)
-head_frame.configure(bg="sky blue2")
+head_frame = Frame(root, bd=4, relief='ridge', bg="sky blue2")
+head_frame.place(x=90, y=140, width=540, height=400)
 
-head_frame2 = Frame(root)
-head_frame2.place(x=590, y=150)
-head_frame2.configure(bg="sky blue2")
+head_frame2 = Frame(root, bd=4, relief='ridge', bg="sky blue2")
+head_frame2.place(x=670, y=140, width=460, height=200)
 
 # ************************************Admin ID*******************************************************
-csId = Label(head_frame, text='Customer ID ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
+csId = Label(head_frame, text='Customer ID ', compound=LEFT, font=('times new roman', 15, 'bold'), bg='sky blue2')
 
 csId.grid(row=1, column=0, pady=15, padx=4)
 
@@ -198,12 +208,12 @@ ContactEntry.grid(row=3, column=1, pady=15, padx=4)
 
 # **********************************Button ***********************************************
 confirmButton = Button(text='Confirm', font=('times new roman', 15, 'bold'), bg='red', fg='white',
-                     activebackground='white', activeforeground='black', cursor='hand2', width=7, bd=2, command=add)
-confirmButton.place(x=770, y=450)
+                       activebackground='white', activeforeground='black', cursor='hand2', width=8, bd=2, command=add)
+confirmButton.place(x=890, y=383)
 
 CancelButton = Button(text='Cancel', font=('times new roman', 15, 'bold'), bg='gray87', fg='black',
-                  activebackground='white', activeforeground='black', cursor='hand2', width=7, bd=3,
-                  command=Exitt)
-CancelButton.place(x=880, y=450)
+                      activebackground='white', activeforeground='black', cursor='hand2', width=8, bd=3,
+                      command=Exitt)
+CancelButton.place(x=1020, y=383)
 
 root.mainloop()

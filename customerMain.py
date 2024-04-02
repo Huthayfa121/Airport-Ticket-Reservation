@@ -20,7 +20,9 @@ def bookTickets():
 
 main = Tk()
 main.title('Customer Main')
-main.geometry('1390x760+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
+main.geometry('1540x780+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
+main.resizable(False, False)
+
 main.configure(bg='sky blue2')
 
 # backgroundImage = ImageTk.PhotoImage(file='img/pln.jpg')  # ImageTk.PhotoImage allows as to use image from type jpg
@@ -48,9 +50,9 @@ bookTktMenu.add_command(label='Book Tickets', font=('times new roman', 10), imag
                         command=bookTickets)
 
 # **********************************Cancel******************************************************
-BkButton = Button(main, text='Cancel', font=('times new roman', 15, 'bold'), bg='gray85', fg='black',
-                  activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=2,
+BkButton = Button(main, text='Cancel', font=('times new roman', 16, 'bold'), bg='gray85', fg='black',
+                  activebackground='white', activeforeground='black', cursor='hand2', width=9, bd=2,
                   command=Exitt)
-BkButton.place(x=1230, y=600)
+BkButton.place(x=1300, y=650)
 
 main.mainloop()

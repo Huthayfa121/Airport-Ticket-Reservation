@@ -8,6 +8,7 @@ from PIL import ImageTk  # to import jpg image in our code
 
 import os
 
+
 # Database
 
 def login():
@@ -57,20 +58,20 @@ def Exitt():
 main = Tk()  # create object from class Tk to create main
 
 main.title('Admin login')  # set title
+main.geometry('1540x780+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
 
-main.geometry('1350x760+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
+main.resizable(False, False)
 
-# main.resizable(False, False)
 
-backgroundImage = ImageTk.PhotoImage(file='img/plan1.jpeg')  # ImageTk.PhotoImage allows as to use image from type jpg
+backgroundImage = ImageTk.PhotoImage(file='img/plane2.tif')  # ImageTk.PhotoImage allows as to use image from type jpg
 
 bgLabel = Label(main, image=backgroundImage)
 
 bgLabel.place(x=0, y=0)  # to see the image in our window from x=0 and y=0
 
-loginFrame = Frame(main, bg='#8ecadc')  # inside frame, we keep our labels or buttons
+loginFrame = Frame(main, bg='#8EC9DB')  # inside frame, we keep our labels or buttons
 
-loginFrame.place(x=350, y=150)
+loginFrame.place(x=410, y=190, width=600, height=350)
 
 logoImage = PhotoImage(file='img/pick1.png')
 
@@ -103,12 +104,12 @@ check = Checkbutton(loginFrame, text='Show Password', command=show_password, bg=
 check.grid(row=3, column=3)
 
 loginButton = Button(loginFrame, text='Login', font=('times new roman', 15, 'bold'), bg='red', fg='white',
-                     activebackground='white', activeforeground='black', cursor='hand2', width=7, bd=2, command=login)
-loginButton.grid(row=4, column=2, pady=10)
+                     activebackground='gray87', activeforeground='black', cursor='hand2', width=7, bd=2, command=login)
+loginButton.place(x=200, y=280)
 
-BkButton = Button(text='Cancel', font=('times new roman', 15, 'bold'), bg='white', fg='#2596be',
-                     activebackground='#2596be', activeforeground='white', cursor='hand2', width=7, bd=2, command=Exitt)
-BkButton.place(x=760, y=428)
+BkButton = Button(loginFrame, text='Cancel', font=('times new roman', 15, 'bold'), bg='gray87', fg='black',
+                  activebackground='white', activeforeground='black', cursor='hand2', width=7, bd=2, command=Exitt)
+BkButton.place(x=320, y=280)
 
 # keep our main window on a loop
 main.mainloop()

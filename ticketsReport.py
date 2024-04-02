@@ -10,18 +10,19 @@ def Exitt():
 
 
 main = Tk()
-main.title('Ticket  Report')
-main.geometry('1390x750+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
+main.title('Tickets  Report')
+main.geometry('1540x780+0+0') # use geometry method to set width 1350 and height 700 from x 0 and y 0
+main.resizable(False, False)
 main.configure(bg='white')
 
-backgroundImage = ImageTk.PhotoImage(file='img/plan1.jpeg')  # ImageTk.PhotoImage allows as to use image from type jpg
+backgroundImage = ImageTk.PhotoImage(file='img/plane2.tif')  # ImageTk.PhotoImage allows as to use image from type jpg
 
 bgLabel = Label(main, image=backgroundImage)
 
 bgLabel.place(x=0, y=0)
 # *******************************************************************************************************
-frame = Frame(main)
-frame.place(x=80, y=80, width=850, height=400)
+frame = Frame(main, bd=7, relief='raised')
+frame.place(x=80, y=80, width=970, height=530)
 
 table = ttk.Treeview(frame, columns=("tkNum", "flight_id", "cs_id", "class", "price", "seats", "date"), show="headings")
 
@@ -76,9 +77,9 @@ finally:
 
 # ************************************* Cancel button ***************************************************
 
-BkButton = Button(main, text='Cancel', font=('times new roman', 15, 'bold'), bg='gray85', fg='black',
-                  activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=2,
+BkButton = Button(main, text='Cancel', font=('times new roman', 16, 'bold'), bg='gray85', fg='black',
+                  activebackground='white', activeforeground='black', cursor='hand2', width=8, bd=2,
                   command=Exitt)
-BkButton.place(x=850, y=500)
+BkButton.place(x=940, y=640)
 
 main.mainloop()

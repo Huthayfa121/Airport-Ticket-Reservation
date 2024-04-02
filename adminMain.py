@@ -40,7 +40,10 @@ def ticketsReport():
 
 main = Tk()
 main.title('Admin Main')
-main.geometry('1390x750+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
+main.geometry('1540x780+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
+
+main.resizable(False, False)
+
 main.configure(bg='sky blue2')
 
 # ********************define image for each menu****************************************
@@ -86,9 +89,9 @@ tktReportMenu.add_command(label='Flight Tickets', font=('times new roman', 10), 
                           command=ticketsReport)
 
 # **********************************Cancel******************************************************
-BkButton = Button(main, text='Cancel', font=('times new roman', 15, 'bold'), bg='gray85', fg='black',
-                  activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=2,
+BkButton = Button(main, text='Cancel', font=('times new roman', 16, 'bold'), bg='gray85', fg='black',
+                  activebackground='white', activeforeground='black', cursor='hand2', width=9, bd=2,
                   command=Exitt)
-BkButton.place(x=1230, y=600)
+BkButton.place(x=1300, y=650)
 
 main.mainloop()

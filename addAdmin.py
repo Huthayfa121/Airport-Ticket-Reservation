@@ -69,79 +69,80 @@ main = Tk()
 
 main.title('Add Admin')
 
-main.geometry('1350x760+0+0')
+main.geometry('1540x780+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
 
-# main.resizable(False, False)
-backgroundImage = ImageTk.PhotoImage(file='img/plan1.jpeg')  # ImageTk.PhotoImage allows as to use image from type jpg
+main.resizable(False, False)
+
+backgroundImage = ImageTk.PhotoImage(file='img/plane2.tif')  # ImageTk.PhotoImage allows as to use image from type jpg
 
 bgLabel = Label(main, image=backgroundImage)
 
 bgLabel.place(x=0, y=0)
 
-loginFrame = Frame(main, bg='powder blue')
+loginFrame = Frame(main, bg='sky blue2', bd=4, relief='ridge')
 
-loginFrame.place(x=150, y=120, width=500, height=380)
+loginFrame.place(x=190, y=140, width=500, height=420)
 
-label = Label(loginFrame, text='Admin Creation ', font=('times new roman', 25, 'bold'), bg='powder blue')
+label = Label(loginFrame, text='Admin Creation ', font=('times new roman', 25, 'bold'), bg='sky blue2')
 
 label.grid(row=0, column=1, columnspan=3, pady=10)
 
 # ************************************Admin ID*******************************************************
-adminId = Label(loginFrame, text='Admin ID ', compound=LEFT, font=('times new roman', 15, 'bold'), bg='powder blue')
+adminId = Label(loginFrame, text='Admin ID ', compound=LEFT, font=('times new roman', 15, 'bold'), bg='sky blue2')
 
 adminId.grid(row=1, column=1, pady=10, padx=5)
 
-adminIdEntry = Label(loginFrame, text=autoId(), font=('times new roman', 15, 'bold'), bg='powder blue', bd=3, fg='red',
+adminIdEntry = Label(loginFrame, text=autoId(), font=('times new roman', 15, 'bold'), bg='sky blue2', bd=3, fg='red',
                      width=30)
 
 adminIdEntry.grid(row=1, column=2, pady=10, padx=5)
 
 # ************************************First Name*******************************************************
-fName = Label(loginFrame, text='First Name ', compound=LEFT, font=('times new roman', 15), bg='powder blue')
+fName = Label(loginFrame, text='First Name ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 fName.grid(row=2, column=1, pady=10, padx=5)
 
-fNameEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray85', bd=3, fg='midnight blue', width=30)
+fNameEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray85', bd=3, fg='black', width=30)
 
 fNameEntry.grid(row=2, column=2, pady=10, padx=5)
 
 # ************************************Last Name*******************************************************
-lName = Label(loginFrame, text='Last Name ', compound=LEFT, font=('times new roman', 15), bg='powder blue')
+lName = Label(loginFrame, text='Last Name ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 lName.grid(row=3, column=1, pady=10, padx=5)
 
-lNameEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray85', bd=3, fg='midnight blue', width=30)
+lNameEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray85', bd=3, fg='black', width=30)
 
 lNameEntry.grid(row=3, column=2, pady=10, padx=5)
 
 # ************************************Username*******************************************************
-uname = Label(loginFrame, text='Username ', compound=LEFT, font=('times new roman', 15), bg='powder blue')
+uname = Label(loginFrame, text='Username ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 uname.grid(row=4, column=1, pady=10, padx=5)
 
-unameEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray85', bd=3, fg='midnight blue', width=30)
+unameEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray85', bd=3, fg='black', width=30)
 
 unameEntry.grid(row=4, column=2, pady=10, padx=5)
 
 # ************************************password*******************************************************
-password = Label(loginFrame, text='Password ', compound=LEFT, font=('times new roman', 15), bg='powder blue')
+password = Label(loginFrame, text='Password ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 password.grid(row=5, column=1, pady=10, padx=5)
 
-passwordEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray85', bd=3, fg='midnight blue', width=30)
+passwordEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray85', bd=3, fg='black', width=30)
 
 passwordEntry.grid(row=5, column=2, pady=10, padx=5)
 
 # ************************************* Add button ***************************************************
 addButton = Button(loginFrame, text='Add', font=('times new roman', 15, 'bold'), bg='red', fg='white',
                    activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3, command=add)
-addButton.place(x=280, y=320)
+addButton.place(x=270, y=340)
 
 # ************************************* Cancel button ***************************************************
 BkButton = Button(loginFrame, text='Cancel', font=('times new roman', 15, 'bold'), bg='gray87', fg='black',
                   activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3,
                   command=Exitt)
 
-BkButton.place(x=380, y=320)
+BkButton.place(x=370, y=340)
 
 main.mainloop()

@@ -1,21 +1,13 @@
 from tkinter import *  # to create GUI we will import tkinter
 from tkcalendar import *
 from tkinter import messagebox  # to import message
-
 import mysql.connector
-
 from PIL import ImageTk  # to import jpg image in our code
-
 import os
-
 from tkinter import ttk
 
-import sys
 
-# Retrieve the admin ID passed as a command-line argument
-admin_id = sys.argv[1] if len(sys.argv) > 1 else None
 def addFlight():
-    global admin_id
     if (flName.get() == '' or srcChoosen.get() == '' or depChoosen.get() == '' or date.get() == ''
             or depTime.get() == '' or arrivTime.get() == '' or charge.get() == ''):
         messagebox.showerror('Error', 'Fields cannot be empty')
@@ -23,14 +15,13 @@ def addFlight():
         try:
             db = mysql.connector.connect(host='localhost', user='root', password='', database='airline')
             cur = db.cursor()
-            query = "INSERT INTO flight (fName, source, departure, date, depTime, arrTime, flightCharge, admin_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            val = (flName.get(), srcChoosen.get(), depChoosen.get(), date.get(), depTime.get(),
-                   arrivTime.get(), charge.get(), admin_id)
+            query = "INSERT INTO flight (admin_id, fName, source, departure, date, depTime, arrTime, flightCharge) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            val = (adminId.get(), flName.get(), srcChoosen.get(), depChoosen.get(), date.get(), depTime.get(),
+                   arrivTime.get(), charge.get())
             cur.execute(query, val)
             db.commit()
             messagebox.showinfo('Success', 'Record inserted successfully')
-
-            Exitt()
+            flightID.configure(text=autoId())
 
         except mysql.connector.Error as e:
             messagebox.showerror('Error', f'Error: {e}')
@@ -39,6 +30,16 @@ def addFlight():
             if db.is_connected():
                 cur.close()
                 db.close()
+
+        adminId.delete(0, 'end')
+        flName.delete(0, 'end')
+        srcChoosen.delete(0, 'end')
+        depChoosen.delete(0, 'end')
+        date.delete(0, 'end')
+        depTime.delete(0, 'end')
+        arrivTime.delete(0, 'end')
+        charge.delete(0, 'end')
+
 
 def Exitt():
     root.destroy()  # Close the main login window
@@ -99,30 +100,41 @@ def autoId():
 
 root = Tk()
 root.title("Add Flight")
-root.geometry("1350x760+0+0")
+root.geometry('1540x780+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
+
+root.resizable(False, False)
+
 root.configure(bg="sky blue2")
-backgroundImage = ImageTk.PhotoImage(file='img/plan1.jpeg')  # ImageTk.PhotoImage allows as to use image from type jpg
+backgroundImage = ImageTk.PhotoImage(file='img/plane2.tif')  # ImageTk.PhotoImage allows as to use image from type jpg
 
 bgLabel = Label(root, image=backgroundImage)
 
 bgLabel.place(x=0, y=0)
 
 # ***************************************************************************************************************************
-head_frame = Frame(root)
-head_frame.configure(bg="sky blue2")
-head_frame.place(x=150, y=90, width=590, height=550)
+head_frame = Frame(root, bg="sky blue2", bd=4, relief='ridge')
+head_frame.place(x=150, y=70, width=580, height=640)
 
-label1 = Label(head_frame, text="Flight ID ", font=('times new roman', 15), bg='sky blue2')
-label1.grid(row=1, column=0, pady=15, padx=4)
+# ****************************************************************************************************************************
 
-label2 = Label(head_frame, text=autoId(), font=('times new roman', 16, 'bold'), bg='sky blue2', fg='red', width=35)
-label2.grid(row=1, column=1, pady=15, padx=4)
+label1 = Label(head_frame, text="Flight ID ", font=('times new roman', 15, 'bold'), bg='sky blue2')
+label1.grid(row=0, column=0, pady=15, padx=4)
+
+flightID = Label(head_frame, text=autoId(), font=('times new roman', 16, 'bold'), bg='sky blue2', fg='red', width=30)
+flightID.grid(row=0, column=1, pady=15, padx=4)
+
 # ***************************************************************************************************************************
+label3 = Label(head_frame, text="Admin ID ", font=('times new roman', 15), bg='sky blue2')
+label3.grid(row=1, column=0, pady=15, padx=4)
 
-label3 = Label(head_frame, text="Flight Name ", font=('times new roman', 15), bg='sky blue2')
-label3.grid(row=2, column=0, pady=15, padx=4)
+adminId = Entry(head_frame, font=('times new roman', 14), bg="white", width=35, bd=3)
+adminId.grid(row=1, column=1, pady=15, padx=4)
+# **************************************************************************************************************************
 
-flName = Entry(head_frame, font=('times new roman', 12), bg="white", width=35, bd=3)
+label4 = Label(head_frame, text="Flight Name ", font=('times new roman', 15), bg='sky blue2')
+label4.grid(row=2, column=0, pady=15, padx=4)
+
+flName = Entry(head_frame, font=('times new roman', 14), bg="white", width=35, bd=3)
 flName.grid(row=2, column=1, pady=15, padx=4)
 # ***************************************************************************************************************************
 
@@ -130,7 +142,7 @@ label6 = Label(head_frame, text="Source ", font=('times new roman', 15), bg='sky
 label6.grid(row=3, column=0, pady=15, padx=4)
 
 n = StringVar()
-srcChoosen = ttk.Combobox(head_frame, width=44, textvariable=n)
+srcChoosen = ttk.Combobox(head_frame, width=49, textvariable=n)
 
 country_names = [
     'USA', 'UK', 'France', 'Germany', 'Japan', 'Australia', 'Canada',
@@ -146,20 +158,19 @@ label7 = Label(head_frame, text="Departure ", font=('times new roman', 15), bg='
 label7.grid(row=4, column=0, pady=15, padx=4)
 
 n1 = StringVar()
-depChoosen = ttk.Combobox(head_frame, width=44, textvariable=n1)
+depChoosen = ttk.Combobox(head_frame, width=49, textvariable=n1)
 
 # Adding combobox drop down list
 depChoosen['values'] = country_names
 
 depChoosen.grid(row=4, column=1, pady=15, padx=4)
 
-
 # **************************** Second Column ***********************************************************************
 
 label8 = Label(head_frame, text="Date ", font=('times new roman', 15), bg='sky blue2')
 label8.grid(row=5, column=0, pady=15, padx=4)
 
-date = Entry(head_frame, font=('times new roman', 12), bg="white", width=35, bd=3)
+date = Entry(head_frame, font=('times new roman', 14), bg="white", width=35, bd=3)
 date.grid(row=5, column=1, pady=15, padx=4)
 date.bind('<1>', pick_date)
 # ***************************************************************************************************************************
@@ -167,7 +178,7 @@ date.bind('<1>', pick_date)
 label10 = Label(head_frame, text="Departure Time ", font=('times new roman', 15), bg='sky blue2')
 label10.grid(row=6, column=0, pady=15, padx=4)
 
-depTime = Entry(head_frame, font=('times new roman', 12), bg="white", bd=3, width=35)
+depTime = Entry(head_frame, font=('times new roman', 14), bg="white", bd=3, width=35)
 depTime.grid(row=6, column=1, pady=15, padx=4)
 
 # ***************************************************************************************************************************
@@ -175,26 +186,24 @@ depTime.grid(row=6, column=1, pady=15, padx=4)
 label12 = Label(head_frame, text="Arrival Time ", font=('times new roman', 15), bg='sky blue2')
 label12.grid(row=7, column=0, pady=15, padx=4)
 
-arrivTime = Entry(head_frame, font=('times new roman', 12), bg="white", bd=3, width=35)
+arrivTime = Entry(head_frame, font=('times new roman', 14), bg="white", bd=3, width=35)
 arrivTime.grid(row=7, column=1, pady=15, padx=4)
 # ***************************************************************************************************************************
 
-label14 = Label(head_frame, text="Flight Charge $ : ", font=('times new roman', 15), bg='sky blue2')
+label14 = Label(head_frame, text="Flight Charge $ ", font=('times new roman', 15), bg='sky blue2')
 label14.grid(row=8, column=0, pady=15, padx=4)
 
-charge = Entry(head_frame, font=('times new roman', 12), bg="white", bd=3, width=35)
+charge = Entry(head_frame, font=('times new roman', 14), bg="white", bd=3, width=35)
 charge.grid(row=8, column=1, pady=15, padx=4)
 
 # **********************************Button ***********************************************
 addButton = Button(text='Add', font=('times new roman', 15, 'bold'), bg='red', fg='white',
                    activebackground='white', activeforeground='black', cursor='hand2', width=7, bd=3, command=addFlight)
-addButton.place(x=510, y=580)
+addButton.place(x=420, y=620)
 
 CancelButton = Button(text='Cancel', font=('times new roman', 15, 'bold'), bg='gray87', fg='black',
-                  activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3,
-                  command=Exitt)
-CancelButton.place(x=630, y=580)
-
-
+                      activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3,
+                      command=Exitt)
+CancelButton.place(x=543, y=620)
 
 root.mainloop()

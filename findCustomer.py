@@ -144,10 +144,10 @@ main = Tk()
 
 main.title('Find Customer')
 
-main.geometry('1350x760+0+0')
+main.geometry('1540x780+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
 
-# main.resizable(False, False)
-backgroundImage = ImageTk.PhotoImage(file='img/plan1.jpeg')  # ImageTk.PhotoImage allows as to use image from type jpg
+main.resizable(False, False)
+backgroundImage = ImageTk.PhotoImage(file='img/plane2.tif')  # ImageTk.PhotoImage allows as to use image from type jpg
 
 bgLabel = Label(main, image=backgroundImage)
 
@@ -157,29 +157,31 @@ loginFrame = Frame(main, bg='powder blue')
 
 loginFrame.place(x=150, y=210)
 # *************************************Frame*******************************************
-head_frame = Frame(main)
-head_frame.place(x=90, y=230)
-head_frame.configure(bg="sky blue2")
+head_frame = Frame(main, bd=4, relief='ridge', bg="sky blue2")
+head_frame.place(x=90, y=215, width=540, height=400)
 
-head_frame2 = Frame(main)
-head_frame2.place(x=560, y=230)
-head_frame2.configure(bg="sky blue2")
+head_frame2 = Frame(main, bd=4, relief='ridge', bg="sky blue2")
+head_frame2.place(x=670, y=215, width=460, height=200)
 # ************************************Admin ID*******************************************************
-csId = Label(main, text='Customer ID ', compound=LEFT, font=('times new roman', 17, 'bold'), bg='#8cc4d6')
+csId = Label(main, text='Customer ID ', compound=LEFT, font=('times new roman', 16, 'bold'), bg='#83BFD3')
 
-csId.place(x=100, y=150)
+csId.place(x=90, y=140)
 
 csIdEntry = Entry(main, font=('times new roman', 15, 'bold'), bg='gray95', bd=3, fg='red',
-                  width=25)
+                  width=30)
 
-csIdEntry.place(x=255, y=150)
+csIdEntry.place(x=225, y=140)
 
 findButton = Button(main, text='Find', font=('times new roman', 13, 'bold'), bg='gray87', fg='black',
-                    activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3, command=find)
+                    activebackground='white', activeforeground='black', cursor='hand2', width=8, bd=3, command=find)
 
-findButton.place(x=550, y=150)
+findButton.place(x=540, y=139)
 
 # ****************************First Name ***********************************************************************
+empty = Label(head_frame, bg='sky blue2')
+
+empty.grid(row=1, column=0, pady=15, padx=4)
+
 FirstN = Label(head_frame, text="First Name", bg="sky blue2", font=("times new roman", 15))
 FirstN.grid(row=2, column=0, pady=15, padx=4)
 
@@ -246,18 +248,18 @@ ContactEntry.grid(row=3, column=1, pady=15, padx=4)
 
 # ************************************* button ***************************************************
 updateButton = Button(main, text='Update', font=('times new roman', 15, 'bold'), bg='gray87', fg='black',
-                      activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3, command=update)
-updateButton.place(x=680, y=450)
+                      activebackground='white', activeforeground='black', cursor='hand2', width=7, bd=3, command=update)
+updateButton.place(x=810, y=450)
 
 deleteButton = Button(main, text='Delete', font=('times new roman', 15, 'bold'), bg='red', fg='white',
-                      activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3, command=delete)
+                      activebackground='white', activeforeground='black', cursor='hand2', width=7, bd=3, command=delete)
 
-deleteButton.place(x=780, y=450)
+deleteButton.place(x=925, y=450)
 
 BkButton = Button(main, text='Cancel', font=('times new roman', 15, 'bold'), bg='gray87', fg='black',
-                  activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3,
+                  activebackground='white', activeforeground='black', cursor='hand2', width=7, bd=3,
                   command=Exitt)
 
-BkButton.place(x=880, y=450)
+BkButton.place(x=1040, y=450)
 
 main.mainloop()
