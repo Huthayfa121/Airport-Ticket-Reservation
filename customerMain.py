@@ -12,6 +12,9 @@ def addCustomer():
     main.destroy()
     os.system('python addCustomer.py')
 
+def findCustomer():
+    main.destroy()
+    os.system('python findCustomer.py')
 
 def bookTickets():
     main.destroy()
@@ -33,6 +36,7 @@ main.configure(bg='sky blue2')
 
 # ********************define image for each menu****************************************
 addCustomerImage = PhotoImage(file='img/customer.png')
+findCustomerImage = PhotoImage(file='img/findCustomer.png')
 ticketImage = PhotoImage(file='img/airplane-ticket.png')
 
 # ********************************Create Setting menu bar*************************************
@@ -41,8 +45,11 @@ main.config(menu=menubar)
 
 custMenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Customer", menu=custMenu)
-custMenu.add_command(label='Add Customer', font=('times new roman', 10), image=addCustomerImage, compound=LEFT,
+custMenu.add_command(label='Sign Up', font=('times new roman', 10), image=addCustomerImage, compound=LEFT,
                      command=addCustomer)
+
+custMenu.add_command(label='Find Customer', font=('times new roman', 10), image=findCustomerImage, compound=LEFT,
+                        command=findCustomer)
 
 bookTktMenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Tickets", menu=bookTktMenu)

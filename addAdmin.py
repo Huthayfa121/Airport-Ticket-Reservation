@@ -67,7 +67,7 @@ def add():
 
 main = Tk()
 
-main.title('Add Admin')
+main.title('Admin Sign Up')
 
 main.geometry('1540x780+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
 

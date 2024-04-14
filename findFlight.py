@@ -40,13 +40,14 @@ def find():
             if record is None:
                 messagebox.showinfo("Message", "Not Found ")
             else:
-                fNameEntry.insert(0, record[1])
-                srcChoosen.insert(0, record[2])
-                depChoosen.insert(0, record[3])
-                dateEntry.insert(0, record[4])
-                depTimeEntry.insert(0, record[5])
-                arrTimeEntry.insert(0, record[6])
-                chargeEntry.insert(0, record[7])
+                adminIdLabelE.config(text=record[1])
+                fNameEntry.insert(0, record[2])
+                srcChoosen.insert(0, record[3])
+                depChoosen.insert(0, record[4])
+                dateEntry.insert(0, record[5])
+                depTimeEntry.insert(0, record[6])
+                arrTimeEntry.insert(0, record[7])
+                chargeEntry.insert(0, record[8])
 
         except mysql.connector.Error as e:
             messagebox.showerror('Error', f'Error: {e}')
@@ -72,6 +73,7 @@ def delete():
             db.commit()
             messagebox.showinfo("Success", "Record deleted successfully!")
 
+            adminIdLabelE.config(text="")
             flightIdEntry.delete(0, 'end')
             fNameEntry.delete(0, 'end')
             srcChoosen.delete(0, 'end')
@@ -103,6 +105,7 @@ def update():
             db.commit()  # Remember to commit the changes after an update operation
             messagebox.showinfo("Success", "Record Updated successfully!")
 
+            adminIdLabelE.config(text="")
             flightIdEntry.delete(0, 'end')
             fNameEntry.delete(0, 'end')
             srcChoosen.delete(0, 'end')
@@ -137,7 +140,7 @@ loginFrame = Frame(main, bd=4, relief='ridge', bg='sky blue2')
 
 loginFrame.place(x=170, y=130, width=550, height=590)
 
-# ************************************Flight ID*******************************************************
+# *************Flight ID******************
 flightId = Label(main, text='Flight ID ', compound=LEFT, font=('times new roman', 17, 'bold'), bg='#83BED2')
 
 flightId.place(x=170, y=60)
@@ -152,20 +155,23 @@ findButton = Button(main, text='Find', font=('times new roman', 13, 'bold'), bg=
 
 findButton.place(x=618, y=59)
 
-# ************************************Flight Name*******************************************************
-empty = Label(loginFrame, bg='sky blue2')
+# *************Flight Name******************
+adminIdLabel = Label(loginFrame, text='Admin Id ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
-empty.grid(row=1, column=0, pady=15, padx=4)
+adminIdLabel.grid(row=1, column=1, pady=15, padx=4)
 
-fName = Label(loginFrame, text='Flight Name ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
+adminIdLabelE = Label(loginFrame, compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
+adminIdLabelE.grid(row=1, column=2, pady=15, padx=4)
+
+fName = Label(loginFrame,text='Flight Name', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 fName.grid(row=2, column=1, pady=15, padx=5)
 
 fNameEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray95', bd=3, fg='black', width=30)
 
 fNameEntry.grid(row=2, column=2, pady=15, padx=5)
 
-# ************************************Source*******************************************************
+# *************Source******************
 source = Label(loginFrame, text='Source ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 source.grid(row=3, column=1, pady=15, padx=5)
@@ -181,7 +187,7 @@ srcChoosen['values'] = country_names
 
 srcChoosen.grid(row=3, column=2, pady=15, padx=5)
 
-# ************************************Departure*******************************************************
+# *************Departure******************
 departure = Label(loginFrame, text='Departure ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 departure.grid(row=4, column=1, pady=15, padx=5)
@@ -193,7 +199,7 @@ depChoosen['values'] = country_names
 
 depChoosen.grid(row=4, column=2, pady=15, padx=5)
 
-# ************************************date*******************************************************
+# *************date******************
 date = Label(loginFrame, text='Date ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 date.grid(row=5, column=1, pady=15, padx=5)
@@ -202,7 +208,7 @@ dateEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray95', bd=3, f
 
 dateEntry.grid(row=5, column=2, pady=15, padx=5)
 
-# ************************************date*******************************************************
+# *************date******************
 depTime = Label(loginFrame, text='Departure Time ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 depTime.grid(row=6, column=1, pady=15, padx=5)
@@ -211,7 +217,7 @@ depTimeEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray95', bd=3
 
 depTimeEntry.grid(row=6, column=2, pady=15, padx=5)
 
-# ************************************date*******************************************************
+# *************date******************
 arrTime = Label(loginFrame, text='Arrival Time ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 arrTime.grid(row=7, column=1, pady=15, padx=5)
@@ -220,7 +226,7 @@ arrTimeEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray95', bd=3
 
 arrTimeEntry.grid(row=7, column=2, pady=15, padx=5)
 
-# ************************************date*******************************************************
+# *************date******************
 charge = Label(loginFrame, text='Flight Charge $ ', compound=LEFT, font=('times new roman', 15), bg='sky blue2')
 
 charge.grid(row=8, column=1, pady=15, padx=5)
@@ -229,7 +235,7 @@ chargeEntry = Entry(loginFrame, font=('times new roman', 15), bg='gray95', bd=3,
 
 chargeEntry.grid(row=8, column=2, pady=15, padx=5)
 
-# ************************************* buttons ***************************************************
+# ************* buttons *****************
 updateButton = Button(loginFrame, text='Update', font=('times new roman', 15, 'bold'), bg='gray87', fg='black',
                       activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3, command=update)
 updateButton.place(x=170, y=500)

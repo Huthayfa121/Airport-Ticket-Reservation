@@ -70,7 +70,7 @@ def open_payment_window():
         button_pay.place(x=150, y=140)
 
 
-def Search():
+def searchFlight():
     if srcChoosen.get() == '' or depChoosen.get() == '':
         messagebox.showerror('Error', 'Empty Source Or Departure')
     else:
@@ -97,7 +97,7 @@ def Search():
                 cur.close()
 
 
-def find():
+def findCustomer():
     if csId.get() == '':
         messagebox.showerror('Error', 'Empty ID')
     else:
@@ -315,7 +315,7 @@ depChoosen.place(x=210, y=150)
 depChoosen.current()
 
 button = Button(head_frame, text="Search", font=('times new roman', 17, 'bold'), bg='#f7faf7', fg='black',
-                activebackground='red', activeforeground='white', command=Search)
+                activebackground='red', activeforeground='white', command=searchFlight)
 button.place(x=390, y=210)
 
 # *************************************  SECOND FRAME  *******************************************
@@ -350,7 +350,7 @@ PassNum = Label(head_frame1, font=('times new roman', 14), bg='#f0f0f0', bd=2, f
 PassNum.grid(row=4, column=1, pady=15, padx=4)
 
 button1 = Button(head_frame1, text="Search", font=('times new roman', 16, 'bold'), bg='#f7faf7', fg='black',
-                 activebackground='red', activeforeground='white', command=find)
+                 activebackground='red', activeforeground='white', command=findCustomer)
 button1.grid(row=1, column=4, padx=15, pady=20)
 
 # *************************************  THIRD FRAME  *******************************************

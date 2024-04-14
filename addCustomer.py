@@ -1,27 +1,49 @@
 from tkinter import *  # to create GUI we will import tkinter
 from tkcalendar import *
-
 from tkinter import messagebox  # to import message
-
 import mysql.connector
-
 from PIL import ImageTk  # to import jpg image in our code
-
 import os
+from tkinter import ttk
 
 
-def sel():
-    selection = str(var.get())
-    if selection == '1':
-        gander = 'Male'
+def addFlight():
+    if (flName.get() == '' or srcChoosen.get() == '' or depChoosen.get() == '' or date.get() == ''
+            or depTime.get() == '' or arrivTime.get() == '' or charge.get() == ''):
+        messagebox.showerror('Error', 'Fields cannot be empty')
     else:
-        gander = 'Female'
-    return gander
+        try:
+            db = mysql.connector.connect(host='localhost', user='root', password='', database='airline')
+            cur = db.cursor()
+            query = "INSERT INTO flight (admin_id, fName, source, departure, date, depTime, arrTime, flightCharge) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            val = (adminId.get(), flName.get(), srcChoosen.get(), depChoosen.get(), date.get(), depTime.get(),
+                   arrivTime.get(), charge.get())
+            cur.execute(query, val)
+            db.commit()
+            messagebox.showinfo('Success', 'Record inserted successfully')
+            flightID.configure(text=autoId())
+
+        except mysql.connector.Error as e:
+            messagebox.showerror('Error', f'Error: {e}')
+
+        finally:
+            if db.is_connected():
+                cur.close()
+                db.close()
+
+        adminId.delete(0, 'end')
+        flName.delete(0, 'end')
+        srcChoosen.delete(0, 'end')
+        depChoosen.delete(0, 'end')
+        date.delete(0, 'end')
+        depTime.delete(0, 'end')
+        arrivTime.delete(0, 'end')
+        charge.delete(0, 'end')
 
 
 def Exitt():
     root.destroy()  # Close the main login window
-    os.system('python customerMain.py')
+    os.system('python adminMain.py')
 
 
 def pick_date(event):
@@ -40,8 +62,8 @@ def pick_date(event):
 
 
 def grab_date():
-    dobEntry.delete(0, END)
-    dobEntry.insert(0, cal.get_date())
+    date.delete(0, END)
+    date.insert(0, cal.get_date())
     date_window.destroy()
 
 
@@ -51,21 +73,21 @@ def autoId():
         cur = db.cursor()
 
         # Reset the auto-increment value to the next available ID
-        cur.execute("ALTER TABLE customer AUTO_INCREMENT = 1")
+        cur.execute("ALTER TABLE flight AUTO_INCREMENT = 1")
         db.commit()
 
         # Get the maximum ID value after deletion
-        cur.execute("SELECT MAX(cs_id) FROM customer")
+        cur.execute("SELECT MAX(flight_id) FROM flight")
         max_id = cur.fetchone()[0]
 
         # If there are no existing IDs, start from a predefined value
         if max_id is None:
-            csId = 20001
+            flight_id = 20001
         else:
             # Increment the maximum ID by 1 to get the next available ID
-            csId = max_id + 1
+            flight_id = max_id + 1
 
-        return csId
+        return flight_id
 
     except mysql.connector.Error as err:
         print("Error:", err)
@@ -76,144 +98,112 @@ def autoId():
             db.close()
 
 
-def add():
-    gnder = sel()
-    if (FirstNEntry.get() == '' or LastNEntry.get() == '' or PassportEntry.get() == '' or AddressEntry.get() == ''
-            or dobEntry.get() == '' or ContactEntry.get() == '' or NICEntry.get() == '' or gnder == ''):
-        messagebox.showerror('Error', 'Fields cannot be empty')
-    else:
-        try:
-            db = mysql.connector.connect(host='localhost', user='root', password='', database='airline')
-            cur = db.cursor()
-            query = "INSERT INTO customer (fName, lName, nic, passport, address, dob, gander, phone) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            val = (FirstNEntry.get(), LastNEntry.get(), NICEntry.get(), PassportEntry.get(), AddressEntry.get(),
-                   dobEntry.get(),
-                   gnder, ContactEntry.get())
-            cur.execute(query, val)
-            db.commit()
-            messagebox.showinfo('Success', 'Record inserted successfully')
-            csIdEntry.configure(text=autoId())
-            FirstNEntry.delete(0, 'end')
-            LastNEntry.delete(0, 'end')
-            NICEntry.delete(0, 'end')
-            PassportEntry.delete(0, 'end')
-            AddressEntry.delete(0, 'end')
-            dobEntry.delete(0, 'end')
-            ContactEntry.delete(0, 'end')
-            Gend1Entry.deselect()
-            Gend2Entry.deselect()
-
-        except mysql.connector.Error as e:
-            messagebox.showerror('Error', f'Error: {e}')
-
-        finally:
-            if db.is_connected():
-                cur.close()
-                db.close()
-
-
 root = Tk()
-root.title("Add Customer")
+root.title("Add Flight")
 root.geometry('1540x780+0+0')  # use geometry method to set width 1350 and height 700 from x 0 and y 0
 
 root.resizable(False, False)
 
-root.configure(bg="sky blue")
+root.configure(bg="sky blue2")
 backgroundImage = ImageTk.PhotoImage(file='img/plane2.tif')  # ImageTk.PhotoImage allows as to use image from type jpg
 
 bgLabel = Label(root, image=backgroundImage)
 
 bgLabel.place(x=0, y=0)
 
-# *************************************Frame*******************************************
-head_frame = Frame(root, bd=4, relief='ridge', bg="sky blue2")
-head_frame.place(x=90, y=140, width=540, height=400)
+# ***************************************************************************************************************************
+head_frame = Frame(root, bg="sky blue2", bd=4, relief='ridge')
+head_frame.place(x=150, y=70, width=580, height=640)
 
-head_frame2 = Frame(root, bd=4, relief='ridge', bg="sky blue2")
-head_frame2.place(x=670, y=140, width=460, height=200)
+# ****************************************************************************************************************************
 
-# ************************************Admin ID*******************************************************
-csId = Label(head_frame, text='Customer ID ', compound=LEFT, font=('times new roman', 15, 'bold'), bg='sky blue2')
+label1 = Label(head_frame, text="Flight ID ", font=('times new roman', 15, 'bold'), bg='sky blue2')
+label1.grid(row=0, column=0, pady=15, padx=4)
 
-csId.grid(row=1, column=0, pady=15, padx=4)
+flightID = Label(head_frame, text=autoId(), font=('times new roman', 16, 'bold'), bg='sky blue2', fg='red', width=30)
+flightID.grid(row=0, column=1, pady=15, padx=4)
 
-csIdEntry = Label(head_frame, text=autoId(), font=('times new roman', 15, 'bold'), bg='sky blue2', fg='red',
-                  width=30)
+# ***************************************************************************************************************************
+label3 = Label(head_frame, text="Admin ID ", font=('times new roman', 15), bg='sky blue2')
+label3.grid(row=1, column=0, pady=15, padx=4)
 
-csIdEntry.grid(row=1, column=1, pady=15, padx=4)
+adminId = Entry(head_frame, font=('times new roman', 14), bg="white", width=35, bd=3)
+adminId.grid(row=1, column=1, pady=15, padx=4)
+# **************************************************************************************************************************
 
-# ****************************First Name ***********************************************************************
-FirstN = Label(head_frame, text="First Name", bg="sky blue2", font=("times new roman", 15))
-FirstN.grid(row=2, column=0, pady=15, padx=4)
+label4 = Label(head_frame, text="Flight Name ", font=('times new roman', 15), bg='sky blue2')
+label4.grid(row=2, column=0, pady=15, padx=4)
 
-FirstNEntry = Entry(head_frame, font=('times new roman', 12), bg="white", width=40, bd=3)
-FirstNEntry.grid(row=2, column=1, pady=15, padx=4)
+flName = Entry(head_frame, font=('times new roman', 14), bg="white", width=35, bd=3)
+flName.grid(row=2, column=1, pady=15, padx=4)
+# ***************************************************************************************************************************
 
-# *************************************Last Name*******************************************
-LastN = Label(head_frame, text="Last Name", bg="sky blue2", font=("times new roman", 15))
-LastN.grid(row=3, column=0, pady=15, padx=4)
+label6 = Label(head_frame, text="Source ", font=('times new roman', 15), bg='sky blue2')
+label6.grid(row=3, column=0, pady=15, padx=4)
 
-LastNEntry = Entry(head_frame, font=('times new roman', 12), bg="white", width=40, bd=3)
-LastNEntry.grid(row=3, column=1, pady=15, padx=4)
+n = StringVar()
+srcChoosen = ttk.Combobox(head_frame, width=49, textvariable=n)
 
-# *************************************NIC*******************************************
-NIC = Label(head_frame, text="NIC", bg="sky blue2", font=("times new roman", 15))
-NIC.grid(row=4, column=0, pady=15, padx=4)
+country_names = [
+    'USA', 'UK', 'France', 'Germany', 'Japan', 'Australia', 'Canada',
+    'Saudi Arabia', 'United Arab Emirates', 'Egypt', 'Jordan', 'Iraq', 'Kuwait', 'Qatar', 'Oman', 'Bahrain']
+# Adding combobox drop down list
+srcChoosen['values'] = country_names
 
-NICEntry = Entry(head_frame, font=('times new roman', 12), bg="white", width=40, bd=3)
-NICEntry.grid(row=4, column=1, pady=15, padx=4)
+srcChoosen.grid(row=3, column=1, pady=15, padx=4)
 
-# *************************************Passport*******************************************
-Passport = Label(head_frame, text="Passport", bg="sky blue2", font=("times new roman", 15))
-Passport.grid(row=5, column=0, pady=15, padx=4)
+# ***************************************************************************************************************************
 
-PassportEntry = Entry(head_frame, font=('times new roman', 12), bg="white", width=40, bd=3)
-PassportEntry.grid(row=5, column=1, pady=15, padx=4)
+label7 = Label(head_frame, text="Departure ", font=('times new roman', 15), bg='sky blue2')
+label7.grid(row=4, column=0, pady=15, padx=4)
 
-# *************************************Address*******************************************
-Address = Label(head_frame, text="Address", bg="sky blue2", font=("times new roman", 15))
-Address.grid(row=6, column=0, pady=15, padx=4)
+n1 = StringVar()
+depChoosen = ttk.Combobox(head_frame, width=49, textvariable=n1)
 
-AddressEntry = Entry(head_frame, font=('times new roman', 12), bg="white", width=40, bd=3)
-AddressEntry.grid(row=6, column=1, pady=15, padx=4)
+# Adding combobox drop down list
+depChoosen['values'] = country_names
 
-# **********************************Date Of Birth********************************************
-DOB = Label(head_frame2, text="Date of birth", bg="sky blue2", font=("times new roman", 15))
-DOB.grid(row=1, column=0, pady=15, padx=4)
+depChoosen.grid(row=4, column=1, pady=15, padx=4)
 
-dobEntry = Entry(head_frame2, font=('times new roman', 12), bg="white", width=35, bd=3)
-dobEntry.grid(row=1, column=1, pady=15, padx=4)
-dobEntry.bind('<1>', pick_date)
-# **********************************Gander********************************************
-var = IntVar()
-Gend = Label(head_frame2, text="Gender", bg="sky blue2", font=("times new roman", 15))
-Gend.grid(row=2, column=0, pady=15, padx=4)
+# **************************** Second Column ***********************************************************************
 
-Gend1Entry = Radiobutton(head_frame2, text="Male", font=("times new roman", 12), bg='sky blue2', variable=var,
-                         value='1', command=sel)
+label8 = Label(head_frame, text="Date ", font=('times new roman', 15), bg='sky blue2')
+label8.grid(row=5, column=0, pady=15, padx=4)
 
-Gend1Entry.place(x=120, y=75)
+date = Entry(head_frame, font=('times new roman', 14), bg="white", width=35, bd=3)
+date.grid(row=5, column=1, pady=15, padx=4)
+date.bind('<1>', pick_date)
+# ***************************************************************************************************************************
 
-Gend2Entry = Radiobutton(head_frame2, text="Female", font=("times new roman", 12), bg='sky blue2', variable=var,
-                         value='2', command=sel)
+label10 = Label(head_frame, text="Departure Time ", font=('times new roman', 15), bg='sky blue2')
+label10.grid(row=6, column=0, pady=15, padx=4)
 
-Gend2Entry.place(x=200, y=75)
+depTime = Entry(head_frame, font=('times new roman', 14), bg="white", bd=3, width=35)
+depTime.grid(row=6, column=1, pady=15, padx=4)
 
-# **********************************Contact********************************************
-Contact = Label(head_frame2, text="Contact", bg="sky blue2", font=("times new roman", 15))
-Contact.grid(row=3, column=0, pady=15, padx=4)
+# ***************************************************************************************************************************
 
-ContactEntry = Entry(head_frame2, font=('times new roman', 12), bg="white", width=35, bd=3)
-ContactEntry.grid(row=3, column=1, pady=15, padx=4)
+label12 = Label(head_frame, text="Arrival Time ", font=('times new roman', 15), bg='sky blue2')
+label12.grid(row=7, column=0, pady=15, padx=4)
+
+arrivTime = Entry(head_frame, font=('times new roman', 14), bg="white", bd=3, width=35)
+arrivTime.grid(row=7, column=1, pady=15, padx=4)
+# ***************************************************************************************************************************
+
+label14 = Label(head_frame, text="Flight Charge $ ", font=('times new roman', 15), bg='sky blue2')
+label14.grid(row=8, column=0, pady=15, padx=4)
+
+charge = Entry(head_frame, font=('times new roman', 14), bg="white", bd=3, width=35)
+charge.grid(row=8, column=1, pady=15, padx=4)
 
 # **********************************Button ***********************************************
-confirmButton = Button(text='Confirm', font=('times new roman', 15, 'bold'), bg='red', fg='white',
-                       activebackground='white', activeforeground='black', cursor='hand2', width=8, bd=2, command=add)
-confirmButton.place(x=890, y=383)
+addButton = Button(text='Add', font=('times new roman', 15, 'bold'), bg='red', fg='white',
+                   activebackground='white', activeforeground='black', cursor='hand2', width=7, bd=3, command=addFlight)
+addButton.place(x=420, y=620)
 
 CancelButton = Button(text='Cancel', font=('times new roman', 15, 'bold'), bg='gray87', fg='black',
-                      activebackground='white', activeforeground='black', cursor='hand2', width=8, bd=3,
+                      activebackground='white', activeforeground='black', cursor='hand2', width=6, bd=3,
                       command=Exitt)
-CancelButton.place(x=1020, y=383)
+CancelButton.place(x=543, y=620)
 
 root.mainloop()

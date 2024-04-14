@@ -11,7 +11,7 @@ import os
 
 def Exitt():
     main.destroy()  # Close the main login window
-    os.system('python adminMain.py')
+    os.system('python customerMain.py')
 
 
 def sel():
